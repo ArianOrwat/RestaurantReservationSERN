@@ -1,17 +1,25 @@
-const express = require('express');
+const express = require("express");
 const db = require("./config/db");
-const mysql = require('mysql');
+const mysql = require("mysql");
 
-db.connect();
+db.connect(err => {
+  if (err) {
+    console.log(err);
+  } else {
+    console.log("mysql connected");
+  }
+});
+
 const app = express();
 
 // Init Middleware
 app.use(express.json({ extended: false }));
 
-app.get('/', (req, res) => res.send('API RUNNING'));
+app.get("/", (req, res) => res.send("API RUNNING"));
 
 // Define Routes
-app.use('/api/users', require('./routes/users'));
+app.use("/api/users", require("./routes/users"));
+app.use('/api/auth', require('./routes/auth'));
 
 const PORT = process.env.PORT || 5000;
 

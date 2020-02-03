@@ -58,13 +58,14 @@ router.post(
             // Auth user
 
             await db.query(
-              `SELECT email FROM users WHERE email = '${email}'`,
+              `SELECT id, email FROM users WHERE email = '${email}'`,
               async (err, result) => {
                 if (err) res.status(500).send("Server error");
                 else if (result.length === 0)
                 res.status(400).json({ errors: [{ msg: "Auth user not find" }] });
                 else {
                   const user = result[0];
+                  console.log(result);
 
                   const payload = {
                     user: {
