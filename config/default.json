@@ -2,5 +2,6 @@
     "dbHost": "localhost",
     "dbUser": "root",
     "dbPassword": "",
-    "dbDatabase": "mernschool"
+    "dbDatabase": "mernschool",
+    "jwtSecret": "My-Secret-123-321-Security-Level-Hard"
 }
