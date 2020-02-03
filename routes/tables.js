@@ -40,7 +40,6 @@ router.get("/:day/:month/:year/:people", (req, res) => {
                 : (hours[i] = `${Math.round(hours[i]) - 1}:30:00`);
             }
           } else hours.push("Closed");
-
           if (result.length === 0) {
             res.status(200).json({ hours });
           } else {
@@ -62,16 +61,19 @@ router.get("/:day/:month/:year/:people", (req, res) => {
 // @access  Private
 
 router.post("/", auth, (req, res) => {
-  const { date, people, window } = req.body;
+  const { time, date, table_id, user_id } = req.body;
+
+    // TODO * Secure unauthorized access to reservation
 
   try {
     const table = {
+      time,
       date,
-      people,
-      window
+      table_id,
+      user_id
     };
 
-    db.query("INSERT INTO users SET ?", table, err => {
+    db.query("INSERT INTO reservation SET ?", table, err => {
       if (err) {
         console.log(err);
         res.status(500).send("Server error");

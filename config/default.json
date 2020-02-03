@@ -7,6 +7,8 @@
     "reservationTime": 30,
     "businessHours": [
         [16, 23], [], [10, 18], [10, 18], [10, 18], [10, 18], [14, 22]
-    ]
+    ],
+    "email": "",
+    "emailPassword": ""
 
 }
