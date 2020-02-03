@@ -3,5 +3,10 @@
     "dbUser": "root",
     "dbPassword": "",
     "dbDatabase": "mernschool",
-    "jwtSecret": "My-Secret-123-321-Security-Level-Hard"
+    "jwtSecret": "My-Secret-123-321-Security-Level-Hard",
+    "reservationTime": 30,
+    "businessHours": [
+        [14, 22], [16, 23], [], [10, 18], [10, 18], [10, 18], [10, 18]
+    ]
+
 }

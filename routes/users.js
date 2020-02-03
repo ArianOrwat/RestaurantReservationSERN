@@ -49,7 +49,8 @@ router.post(
               password: passwordHashed,
               image: "./userImage/default.png",
               created: new Date(),
-              passwordDate: new Date()
+              passwordDate: new Date(),
+              role_id: 1
             };
 
             // Send user to database

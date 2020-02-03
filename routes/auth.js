@@ -25,6 +25,10 @@ router.get("/", auth, (req, res) => {
   }
 });
 
+// @route   GET api/users
+// @desc    Login user
+// @access  Public
+
 router.post(
   "/",
   [
