@@ -50,7 +50,8 @@ router.post(
               image: "./userImage/default.png",
               created: new Date(),
               passwordDate: new Date(),
-              role_id: 1
+              role_id: 1,
+              verified: 0
             };
 
             // Send user to database
@@ -95,5 +96,7 @@ router.post(
     }
   }
 );
+
+
 
 module.exports = router;

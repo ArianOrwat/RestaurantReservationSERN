@@ -5,6 +5,23 @@ const config = require("config");
 const auth = require("../middleware/auth");
 const { check, validationResult } = require("express-validator");
 
+// @route   GET api/tables/people
+// @desc    Get places at the table
+// @access  Public
+
+router.get("/people", (req, res) => {
+  db.query("SELECT DISTINCT people FROM tables", (err, results) => {
+    if (err) {
+      console.log(err);
+      res.code(500).json("Server error");
+    } else {
+      let people = [];
+      results.map(result => people.push(result.people));
+      res.status(200).json(people);
+    }
+  });
+});
+
 // @route   GET api/tables/:day/:month/:year/:people
 // @desc    Get tables
 // @access  Public
@@ -18,8 +35,9 @@ router.get("/:day/:month/:year/:people", (req, res) => {
 
   try {
     db.query(
-      `SELECT * FROM tables t JOIN reservation r ON r.table_id = t.id WHERE t.people = ${people}`,
-      (err, result) => {
+      `SELECT * FROM tables t WHERE t.people = ${people}`,
+      async (err, results) => {
+        let end = [];
         if (err) {
           console.log(err);
           res.code(500).json("Server error");
@@ -40,12 +58,38 @@ router.get("/:day/:month/:year/:people", (req, res) => {
                 : (hours[i] = `${Math.round(hours[i]) - 1}:30:00`);
             }
           } else hours.push("Closed");
-          if (result.length === 0) {
-            res.status(200).json({ hours });
+          if (results.length === 0) {
+            res.status(400).json({ msg: "Table not found" });
+            // FIX
           } else {
-            const timeMap = result.map(resultt => resultt.time);
-            const end = hours.filter(hour => timeMap.indexOf(hour) == -1);
-            res.status(200).json({ hours: end });
+            let resultEnd = [];
+            results.forEach((result, idx) => {
+              db.query(
+                `SELECT time FROM reservation WHERE table_id = ${result.id}`,
+                (err, secondResults) => {
+                  if (err) {
+                    console.log(err);
+                    res.status(500).send("Server error");
+                  } else {
+                    if (secondResults.length === 0) {
+                      result.hours = hours;
+                      resultEnd.push(result);
+                    } else {
+                      const timeMap = secondResults.map(
+                        secondResult => secondResult.time
+                      );
+                      result.hours = hours.filter(
+                        hour => timeMap.indexOf(hour) == -1
+                      );
+                      resultEnd.push(result);
+                    }
+                    if (idx === results.length - 1) {
+                      res.status(200).json({ resultEnd });
+                    }
+                  }
+                }
+              );
+            });
           }
         }
       }
@@ -61,23 +105,34 @@ router.get("/:day/:month/:year/:people", (req, res) => {
 // @access  Private
 
 router.post("/", auth, (req, res) => {
-  const { time, date, table_id, user_id } = req.body;
-
-    // TODO * Secure unauthorized access to reservation
+  const { time, day, table_id, user_id } = req.body;
 
   try {
     const table = {
       time,
-      date,
-      table_id,
-      user_id
+      day,
+      user_id,
+      table_id
     };
 
-    db.query("INSERT INTO reservation SET ?", table, err => {
+    db.query(`SELECT * FROM reservation WHERE day = '${day}'`, (err, results) => {
       if (err) {
         console.log(err);
         res.status(500).send("Server error");
-      } else res.status(201).json({ msg: "Table reserved" });
+      } else {
+        console.log(results);
+        const check = results.map(result => result.time === time);
+        if (check.length > 0) {
+          res.status(400).json( { msg: "This hour is unavailable" } )
+        } else {
+          db.query("INSERT INTO reservation SET ?", table, err => {
+            if (err) {
+              console.log(err);
+              res.status(500).send("Server error");
+            } else res.status(201).json({ msg: "Table reserved" });
+          });
+        }
+      }
     });
   } catch (err) {
     console.error(err.message);
@@ -99,12 +154,12 @@ router.delete("/:id", auth, (req, res) => {
         if (result[0].id === user.id) {
           db.query(`DELETE FROM reservation WHERE id = id`, err => {
             if (err) {
-                console.log(err);
-                res.status(500).send("Server error");
-              } else res.status(200).json( { msg: "Reservation deleted" } )
-        });
+              console.log(err);
+              res.status(500).send("Server error");
+            } else res.status(200).json({ msg: "Reservation deleted" });
+          });
         } else {
-            res.status(403).json({ msg: 'You don\'t have permission' });
+          res.status(403).json({ msg: "You don't have permission" });
         }
       }
     }
