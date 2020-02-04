@@ -26,7 +26,7 @@ router.get("/", auth, (req, res) => {
   }
 });
 
-// @route   GET api/users
+// @route   GET api/auth
 // @desc    Login user
 // @access  Public
 
