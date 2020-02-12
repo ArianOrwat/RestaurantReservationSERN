@@ -105,26 +105,35 @@ router.get("/:day/:month/:year/:people", (req, res) => {
 // @access  Private
 
 router.post("/", auth, (req, res) => {
-  const { time, day, table_id, user_id } = req.body;
+  const { minutes, hours, day, month, year, table_id } = req.body;
+  const user = req.user;
 
+  const date = new Date(year, month, day, (hours*1+1), minutes, 0, 0);
+  console.log(date);
   try {
     const table = {
-      time,
-      day,
-      user_id,
+      day: `${year}-${month}-${day}`,
+      time: `${hours}:${!minutes ? '00': minutes}:00`,
+      user_id: user.id,
       table_id
     };
 
-    db.query(`SELECT * FROM reservation WHERE day = '${day}'`, (err, results) => {
+    console.dir(table);
+
+    db.query(`SELECT * FROM reservation WHERE day = '${table.day}'`, (err, results) => {
       if (err) {
         console.log(err);
         res.status(500).send("Server error");
       } else {
         console.log(results);
-        const check = results.map(result => result.time === time);
+        const check = results.map(result => result.time === table.time);
         if (check.length > 0) {
           res.status(400).json( { msg: "This hour is unavailable" } )
-        } else {
+        } 
+        else if(date < Date.now()) {
+          res.status(400).json( { msg: "This hour has expired" } )
+        }
+        else {
           db.query("INSERT INTO reservation SET ?", table, err => {
             if (err) {
               console.log(err);
