@@ -1,10 +1,12 @@
 import React from 'react';
 
+import Slider from '../../components/Slider/Slider';
+
 import './homepage.scss';
 
 const HomePage = () => (
     <div className="homepage">
-        <h1>HomePage</h1>
+        <Slider images={['/img/img1.jpg', '/img/img2.jpg']}/>
     </div>
 )
 
