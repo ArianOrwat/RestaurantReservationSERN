@@ -30,6 +30,37 @@
         cursor: pointer;
     }
 
+    .dots {
+        position: absolute;
+        display: flex;
+        top: 97%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        
+        .dot {
+            position: relative;
+            margin-left: 10px;
+            width: 14px;
+            height: 14px;
+            border: 1px solid white;
+            border-radius: 50%;
+
+            &.active {
+                &::before {
+                    position: absolute;
+                    content: '';
+                    width: 8px;
+                    height: 8px;
+                    background-color: white;
+                    border-radius: 50%;
+                    top: 50%;
+                    left: 50%;
+                    transform: translate(-50%, -50%);
+                }
+            }
+        }
+    }
+
     &__img {
         height: 100%;
         width: 100%;
