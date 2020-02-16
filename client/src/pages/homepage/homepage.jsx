@@ -6,7 +6,7 @@ import './homepage.scss';
 
 const HomePage = () => (
     <div className="homepage">
-        <Slider images={['/img/img1.jpg', '/img/img2.jpg']}/>
+        <Slider images={['/img/slider_img_1.jpg', '/img/slider_img_2.jpg', '/img/slider_img_3.jpg']} text1='Welcome to' text2='Divaldo Restaurant' interval={10000}/>
     </div>
 )
 
