@@ -65,7 +65,7 @@ router.get("/:day/:month/:year/:people", (req, res) => {
             let resultEnd = [];
             results.forEach((result, idx) => {
               db.query(
-                `SELECT time FROM reservation WHERE table_id = ${result.id}`,
+                `SELECT time FROM reservation WHERE table_id = ${result.id} AND day = '${year}-${month}-${day}'`,
                 (err, secondResults) => {
                   if (err) {
                     console.log(err);
@@ -120,13 +120,14 @@ router.post("/", auth, (req, res) => {
 
     console.dir(table);
 
-    db.query(`SELECT * FROM reservation WHERE day = '${table.day}'`, (err, results) => {
+    db.query(`SELECT * FROM reservation WHERE day = ${table.day} AND table_id = ${table_id}`, (err, results) => {
       if (err) {
         console.log(err);
         res.status(500).send("Server error");
       } else {
         console.log(results);
         const check = results.map(result => result.time === table.time);
+        console.log(check);
         if (check.length > 0) {
           res.status(400).json( { msg: "This hour is unavailable" } )
         } 

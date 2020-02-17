@@ -1,3 +1,138 @@
 .react-datepicker__day--selected {
     background-color: #6a8ac7!important;
 }
+
+.helper {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    background-color: white;
+    width: 60%;
+    height: 40%;
+    z-index: -2;
+}
+
+.reservation {
+
+    position: absolute;
+    top: 40%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    padding: 0 2rem;
+    width: 45%;
+    height: 10rem;
+    border: solid 10px #6a8ac7;
+    border-radius: 3rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: 1s;
+    background-color: white;
+    z-index: -1;
+
+    &__search {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+
+    &__icon {
+        font-size: 2rem;
+        color: #6a8ac7;
+        margin: 0 1rem 0 1rem;
+
+        &__space {
+            margin-left: 4rem;
+        }
+    }
+
+    &__select {
+        border: solid 2px #6a8ac7;
+        font-size: 1.5rem;
+    }
+
+    .datepicker {
+        font-size: 1.5rem;
+        text-align: center;
+        border: solid 2px #6a8ac7;
+    }
+
+}
+
+.results {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translate(-50%, 0);
+    padding: 5rem 2rem 1rem 2rem;
+    width: 40%;
+    border: solid 10px #6a8ac7;
+    border-radius: 3rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    transition: 1s;
+    background-color: white;
+    z-index: -3;
+
+    &.active {
+        top: 40%;
+    }
+
+    &__table {
+        font-size: 1.3rem;
+        width: 100%;
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+        margin-top: 1rem;
+        border-radius: 1.5rem;
+        display: flex;
+        height: 5rem;
+        position: relative;
+        
+
+        &__choose {
+            position: absolute;
+            border-radius: 1.5rem;
+            border: none;
+            background-color: #6a8ac7;
+            height: 100%;
+            padding: 0 1rem;
+            right: 0;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            cursor: pointer;
+            transition: .3s;
+            color: white;
+
+            &:hover {
+                background-color: #5e7bb4;
+            }
+        }
+
+        &__info {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .img {
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            width: 25%;
+            height: 100%;
+            background-image: url('/img/SmallTable.jpg');
+            background-position: center;
+            background-size: cover;
+            border-radius: 1.5rem;
+        }
+    }
+}

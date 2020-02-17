@@ -1,4 +1,5 @@
 import React from "react";
+import { withRouter } from 'react-router-dom';
 import axios from 'axios';
 
 import "./sign-in.scss";
@@ -28,7 +29,9 @@ class SignIn extends React.Component {
       try {
           const res = await axios.post("/api/auth", body, config);
           this.setState({ email: "", password: "" });
+          localStorage.setItem('token', res.data.token);
           console.log(res);
+          this.props.history.push("/");
       } catch (err) {
         const errors = err.response.data.errors;
         errors.map( error => console.log(error.msg));
@@ -70,4 +73,4 @@ class SignIn extends React.Component {
   }
 }
 
-export default SignIn;
+export default withRouter(SignIn);
