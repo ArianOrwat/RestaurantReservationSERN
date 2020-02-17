@@ -20,6 +20,10 @@ class Slider extends React.Component {
     this.intervalSet();
   }
 
+  componentWillUnmount() {
+    clearInterval(this.state.interval);
+  }
+
   intervalSet = () => {
     this.setState({interval: setInterval(() => {
       this.changeToNext();
