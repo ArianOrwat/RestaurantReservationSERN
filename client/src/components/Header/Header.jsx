@@ -4,17 +4,7 @@ import { NavLink } from "react-router-dom";
 import { ReactComponent as Logo } from "../../assets/logo.svg";
 import "./Header.scss";
 
-class Header extends React.Component {
-
-  constructor() {
-    super();
-    this.state = {
-      login: localStorage.token ? true : false
-    }
-  }
-
-  render() {
-    return (
+const Header = ({ login, logInState }) => (
       <div className="header">
         <div className="logo-container">
           <Logo className="logo" />
@@ -33,12 +23,12 @@ class Header extends React.Component {
           <NavLink className="option" activeClassName="active" to="/menu">
             Menu
           </NavLink>
-          {this.state.login ? (
+          {login ? (
             <NavLink
               className="option"
               onClick={() => {
                 localStorage.removeItem("token");
-                this.setState({ login: false })
+                logInState();
               }}
               exact
               to="/"
@@ -53,7 +43,5 @@ class Header extends React.Component {
         </div>
       </div>
     );
-  }
-}
 
 export default Header;

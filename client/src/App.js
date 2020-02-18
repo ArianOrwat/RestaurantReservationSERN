@@ -16,15 +16,27 @@ if(localStorage.token) {
 
 class App extends React.Component {
 
+  constructor() {
+    super();
+    this.state = {
+      logIn: false
+    }
+  }
+
+  logInState = () => {
+    console.log(this.state);
+    this.setState((prevState) => ({logIn: !prevState.logIn}))
+  }
+
   render() {
     return (
       <div className="App">
-        <Header />
+        <Header login={this.state.logIn} logInState={() => this.logInState()} />
         <Switch>
           <Route exact path='/' component={HomePage} /> 
           <Route path='/sign-in'>{
-            localStorage.token ? <Redirect to='/' /> : <SignIn />
-          }</Route> 
+            this.state.logIn ? <Redirect to='/' /> : <SignIn logInState={() => this.logInState()} />
+          }</Route>
           <Route path='/reservation' component={Reservation} /> 
         </Switch> 
       </div>

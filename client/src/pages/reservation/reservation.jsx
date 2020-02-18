@@ -77,7 +77,12 @@ const Reservation = () => {
     console.log(minutes, hours, day, month, year);
     const body = JSON.stringify({minutes, hours, day, month, year, table_id});
     console.log(body);
-    axios.post('/api/tables', body, config);
+    try{
+      axios.post('/api/tables', body, config);
+    } catch(err) {
+      console.log(err);
+    }
+    
   }
 
   const resultsActive = () => {
@@ -124,12 +129,12 @@ const Reservation = () => {
                 choosedTable !== table.id && <button className='results__table__choose' onClick={() => {setChoosedTable(table.id)}}>Choose</button>
               }
               {
-                choosedTable && choosedTable === table.id && <><select onChange={e => setChoosedHour(e.target.value)} className='results__table__time'>
+                choosedTable && choosedTable === table.id && <div className='results__table__group'><select onChange={e => setChoosedHour(e.target.value)} className='results__table__time'>
                 {
                   table.hours.map(hour => <option value={hour} key={`table__hour-${hour}`}>{hour}</option>)
                 }
               </select>
-              <button className='results__table__reservation' onClick={() => reservation(table.id)}>Reservation</button></>
+              <button className='results__table__reservation' onClick={() => reservation(table.id)}>Reservation</button></div>
 
               }
             </div>)

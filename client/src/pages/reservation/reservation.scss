@@ -94,6 +94,35 @@
         display: flex;
         height: 5rem;
         position: relative;
+
+        &__group {
+            position: absolute;
+            right: 0;
+            height: 100%;
+        }
+
+        &__time {
+            border: solid 2px #6a8ac7;
+            height: 100%;
+            margin-right: 1rem;
+        }
+
+        &__reservation {
+            border-radius: 1.5rem;
+            border: none;
+            background-color: #6a8ac7;
+            height: 100%;
+            padding: 0 1rem;
+            font-size: 1rem;
+            box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+            cursor: pointer;
+            transition: .3s;
+            color: white;
+
+            &:hover {
+                background-color: #5e7bb4;
+            }
+        }
         
 
         &__choose {

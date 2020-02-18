@@ -5,8 +5,8 @@ import axios from 'axios';
 import "./sign-in.scss";
 
 class SignIn extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
 
     this.state = {
       email: "",
@@ -31,8 +31,11 @@ class SignIn extends React.Component {
           this.setState({ email: "", password: "" });
           localStorage.setItem('token', res.data.token);
           console.log(res);
+          console.log(this.props);
+          this.props.logInState();
           this.props.history.push("/");
       } catch (err) {
+        console.log(err);
         const errors = err.response.data.errors;
         errors.map( error => console.log(error.msg));
       }
