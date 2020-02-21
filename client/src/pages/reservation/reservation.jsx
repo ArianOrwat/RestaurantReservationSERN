@@ -4,10 +4,12 @@ import axios from 'axios';
 
 import setAuthToken from '../../utils/setAuthToken';
 
+import Alert from '../../components/Alert/Alert';
+
 import "react-datepicker/dist/react-datepicker.css";
 import "./reservation.scss";
 
-import { faHome, faUser, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
+import { faUser, faCalendarAlt } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 const Reservation = () => {
@@ -92,6 +94,7 @@ const Reservation = () => {
 
   return (
   <>
+    <Alert messages={[{text: 'Success message in alert', type: 'success'},{text: 'Fail message in alert', type: 'fail'}]} />
     <div className="helper"></div>
       <div className="reservation">  
       <div className="reservation__search">
